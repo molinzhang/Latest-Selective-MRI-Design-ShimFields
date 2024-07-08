@@ -46,10 +46,7 @@ function pAD = ex_op(Inivar_name, gpu_id, varargin)
   arg.shim_path = '/home/molin/shimm_nick/Dynamic_resemble/demo/ISMRM/compare/field_64_body_4mm_renew.mat';
   arg.mask_path = '/home/molin/github_code_upload/MR_excitation_op_update/data/Mask_sagital_pregnancy_small.mat';%'/home/molin/shimm_nick/decompose_refocus/demo/ISMRM/compare/MASK_12mmROI_slice_finer_3pixel.mat';
   arg.rf_path = '';
-  %'/home/molin/github_code_upload/mrf_rf_backup/results_adaptive/pulse8/pulse.mat';
-  %'/home/molin/github_code_upload/mrf_rf_backup/results_pulse/pulse1.mat';
-  %'/home/molin/shimm_nick/decompose_refocus/demo/ISMRM/compare/rf_max_gauss.mat'; 
-  %'/home/molin/shimm_nick/op_rewind/results/sagittal/pulse13rw.mat';% 
+
   arg.FOV = [36, 36, 24];
   arg.num_coil = 64;
   arg.dt = 8e-6;
@@ -104,12 +101,6 @@ function pAD = ex_op(Inivar_name, gpu_id, varargin)
 
   arg = attrParser(arg, varargin);
 
-  %%
-  % this is a much complicated way to rebuild the CUBE. The class SpinCube
-  % and SpinArray could do this automatically by the property and function
-  % between public/dependent and compact properties. I modify them into
-  % all public property. But some of them still use the function of
-  % automatically cacultation from M_, mask to M. Modify this after ISMRM.
   
   cube = IniVar.cube;
   
@@ -117,8 +108,7 @@ function pAD = ex_op(Inivar_name, gpu_id, varargin)
   MASK1 = load(arg.mask_path);
   MASK2 = MASK1.Mask;
   MASK = MASK2;
-  % MASK = zeros(size(MASK2));
-  % MASK(40:50,20,15) = MASK2(40:50,20,15);
+
   CUBE = cube;
   
   CUBE.mask = logical(MASK);
@@ -160,7 +150,6 @@ function pAD = ex_op(Inivar_name, gpu_id, varargin)
   
   % Be careful with mashgrid. index order of ijk and xyz matters when FOV is not isotropic. 
   [Xv, Yv, Zv] = meshgrid(-arg.FOV(2)/2:CUBE.res(2):arg.FOV(2)/2-0.01, -arg.FOV(1)/2:CUBE.res(1):arg.FOV(1)/2-0.01, -arg.FOV(3)/2:CUBE.res(3):arg.FOV(3)/2-0.01);
-  % [Xv, Yv, Zv] = meshgrid(-FOV(2)/2:CUBE.res(2):FOV(2)/2-0.01, -FOV(1)/2:CUBE.res(1):FOV(1)/2-0.01, -FOV(3)/2+FOV(3)/6:CUBE.res(3):FOV(3)/2+FOV(3)/6-0.01);
   CUBE.loc = nan([CUBE.dim 3]);
   
   
