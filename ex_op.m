@@ -1,6 +1,6 @@
 function pAD = ex_op(Inivar_name, gpu_id, varargin)
   import attr.*
-  % IniVar = matfile('../Stochastic-offset-enhanced-restricted-slice-excitation-and-refocusing-designs/rewind/IniVars.mat');
+  % IniVar = matfile('IniVars.mat');
   IniVar = matfile(Inivar_name);
   IniVar.Properties.Writable = true;
   
